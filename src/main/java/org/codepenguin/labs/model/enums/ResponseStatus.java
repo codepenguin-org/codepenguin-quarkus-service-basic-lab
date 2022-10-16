@@ -17,7 +17,20 @@
 
 package org.codepenguin.labs.model.enums;
 
+/**
+ * The response status.
+ *
+ * @author Jorge Garcia
+ * @version 1.0.0
+ * @since 17
+ */
 public enum ResponseStatus {
+    /**
+     * OK.
+     */
     OK,
+    /**
+     * Error.
+     */
     ERROR
 }

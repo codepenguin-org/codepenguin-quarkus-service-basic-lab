@@ -21,6 +21,18 @@ import org.codepenguin.labs.model.enums.ResponseStatus;
 
 import java.time.LocalDateTime;
 
+/**
+ * The vehicular restriction response.
+ *
+ * @param status   the status.
+ * @param message  the message.
+ * @param request  the original request.
+ * @param dateTime the current datetime in Bogotá.
+ * @param canDrive {@code true} if the vehicle can drive now in Bogotá; otherwise {@code false}.
+ * @author Jorge Garcia
+ * @version 1.0.0
+ * @since 17
+ */
 public record VehicularRestrictionResponse(ResponseStatus status, String message, VehicularRestrictionRequest request,
                                            LocalDateTime dateTime, Boolean canDrive) {
 }

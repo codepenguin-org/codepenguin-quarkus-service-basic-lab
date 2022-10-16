@@ -30,6 +30,13 @@ import static org.codepenguin.labs.model.enums.ResponseStatus.ERROR;
 import static org.codepenguin.labs.model.enums.ResponseStatus.OK;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for {@link VehicularRestrictionService}.
+ *
+ * @author Jorge Garcia
+ * @version 1.0.0
+ * @since 17
+ */
 class VehicularRestrictionServiceTest {
 
     private VehicularRestrictionService service;
@@ -40,7 +47,7 @@ class VehicularRestrictionServiceTest {
     }
 
     @Test
-    void evaluate1() {
+    void givenNullPlateWhenEvaluateThenError() {
         final var request = new VehicularRestrictionRequest(null);
         final var response = service.evaluate(request);
 
@@ -52,7 +59,7 @@ class VehicularRestrictionServiceTest {
     }
 
     @Test
-    void evaluate2() {
+    void givenPlateWithNoDigitLastCharacterWhenEvaluateThenError() {
         final var request = new VehicularRestrictionRequest("ABC-DEF");
         final var response = service.evaluate(request);
 
@@ -63,9 +70,8 @@ class VehicularRestrictionServiceTest {
         assertNull(response.canDrive());
     }
 
-
     @Test
-    void evaluate3() {
+    void givenValidPlateForWeekendWhenEvaluateThenSuccessfulCanDrive() {
         final var request = new VehicularRestrictionRequest("ABC-123");
 
         final var localDateTime = LocalDateTime.of(2022, OCTOBER, 15, 0, 0, 0);
@@ -84,9 +90,8 @@ class VehicularRestrictionServiceTest {
         }
     }
 
-
     @Test
-    void evaluate4() {
+    void givenValidPlateForWeekdayBeforeStartRestrictionWhenEvaluateThenSuccessfulCanDrive() {
         final var request = new VehicularRestrictionRequest("ABC-123");
 
         final var localDateTime = LocalDateTime.of(2022, OCTOBER, 17, 4, 0, 0);
@@ -106,7 +111,7 @@ class VehicularRestrictionServiceTest {
     }
 
     @Test
-    void evaluate5() {
+    void givenValidPlateForWeekdayAfterEndRestrictionWhenEvaluateThenSuccessfulCanDrive() {
         final var request = new VehicularRestrictionRequest("ABC-123");
 
         final var localDateTime = LocalDateTime.of(2022, OCTOBER, 17, 22, 0, 0);
@@ -125,9 +130,8 @@ class VehicularRestrictionServiceTest {
         }
     }
 
-
     @Test
-    void evaluate6() {
+    void givenValidOddPlateForOddWeekdayWhileRestrictionWhenEvaluateThenSuccessfulCanNotDrive() {
         final var request = new VehicularRestrictionRequest("ABC-123");
 
         final var localDateTime = LocalDateTime.of(2022, OCTOBER, 17, 12, 0, 0);
@@ -146,9 +150,8 @@ class VehicularRestrictionServiceTest {
         }
     }
 
-
     @Test
-    void evaluate7() {
+    void givenValidOddPlateForEvenWeekdayWhileRestrictionWhenEvaluateThenSuccessfulCanDrive() {
         final var request = new VehicularRestrictionRequest("ABC-123");
 
         final var localDateTime = LocalDateTime.of(2022, OCTOBER, 18, 12, 0, 0);

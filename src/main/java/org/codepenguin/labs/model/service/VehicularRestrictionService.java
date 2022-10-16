@@ -29,11 +29,24 @@ import static java.lang.Boolean.TRUE;
 import static org.codepenguin.labs.model.enums.ResponseStatus.ERROR;
 import static org.codepenguin.labs.model.enums.ResponseStatus.OK;
 
+/**
+ * Business service for vehicular restrictions.
+ *
+ * @author Jorge Garcia
+ * @version 1.0.0
+ * @since 17
+ */
 @ApplicationScoped
 public class VehicularRestrictionService {
 
-    public static final String SUCCESSFUL = "Successful";
+    private static final String SUCCESSFUL = "Successful";
 
+    /**
+     * Evaluates if the vehicle's plate can drive now in Bogotá.
+     *
+     * @param request the request
+     * @return the vehicular restriction response
+     */
     public VehicularRestrictionResponse evaluate(final VehicularRestrictionRequest request) {
         final var plate = request.plate();
         if (StringUtils.isBlank(plate)) {

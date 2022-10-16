@@ -32,6 +32,13 @@ import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static org.codepenguin.labs.model.enums.ResponseStatus.ERROR;
 
+/**
+ * REST controller for vehicular restrictions.
+ *
+ * @author Jorge Garcia
+ * @version 1.0.0
+ * @since 17
+ */
 @AllArgsConstructor
 @Path("/vehicular-restriction")
 @Slf4j
@@ -39,6 +46,12 @@ public class VehicularRestrictionResource {
 
     private final VehicularRestrictionService service;
 
+    /**
+     * Evaluates if the vehicle's plate can drive now in Bogotá.
+     *
+     * @param plate the plate
+     * @return the response
+     */
     @GET
     @Path("/{plate}")
     @Produces(MediaType.APPLICATION_JSON)

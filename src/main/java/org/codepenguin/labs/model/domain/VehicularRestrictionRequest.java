@@ -17,5 +17,19 @@
 
 package org.codepenguin.labs.model.domain;
 
-public record VehicularRestrictionRequest(String plate) {
+import java.io.Serial;
+import java.io.Serializable;
+
+/**
+ * The vehicular restriction request.
+ *
+ * @param plate the plate
+ * @author Jorge Garcia
+ * @version 1.0.0
+ * @since 17
+ */
+public record VehicularRestrictionRequest(String plate) implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = -3313683394529847718L;
 }
