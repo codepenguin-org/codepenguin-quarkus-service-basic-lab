@@ -32,7 +32,9 @@ import static org.codepenguin.labs.model.enums.ResponseStatus.OK;
 @ApplicationScoped
 public class VehicularRestrictionService {
 
-    public VehicularRestrictionResponse evaluate(VehicularRestrictionRequest request) {
+    public static final String SUCCESSFUL = "Successful";
+
+    public VehicularRestrictionResponse evaluate(final VehicularRestrictionRequest request) {
         final var plate = request.plate();
         if (StringUtils.isBlank(plate)) {
             return new VehicularRestrictionResponse(ERROR, "Must evaluate a plate", request,
@@ -47,21 +49,20 @@ public class VehicularRestrictionService {
 
         final var now = LocalDateTime.now(ZoneId.of("America/Bogota"));
 
-        switch (now.getDayOfWeek()) {
-            case SATURDAY, SUNDAY:
-                return new VehicularRestrictionResponse(OK, "Successful", request, now, TRUE);
-        }
+        return switch (now.getDayOfWeek()) {
+            case SATURDAY, SUNDAY -> new VehicularRestrictionResponse(OK, SUCCESSFUL, request, now, TRUE);
+            default -> evaluateWeekdays(request, lastChar, now);
+        };
+    }
 
+    private VehicularRestrictionResponse evaluateWeekdays(final VehicularRestrictionRequest request, final char lastChar,
+                                                          final LocalDateTime now) {
         final var hour = now.getHour();
-        if (hour < 6 || 21 < hour) {
-            return new VehicularRestrictionResponse(OK, "Successful", request, now, TRUE);
-        }
+        return hour < 6 || 21 < hour ?
+                new VehicularRestrictionResponse(OK, SUCCESSFUL, request, now, TRUE) :
+                new VehicularRestrictionResponse(OK, SUCCESSFUL, request, now,
+                        isEven(now.getDayOfMonth()) != isEven(Integer.parseInt(String.valueOf(lastChar))));
 
-        final var isTodayEven = isEven(now.getDayOfMonth());
-        final var isPlateEven = isEven(Integer.parseInt(String.valueOf(lastChar)));
-
-        return new VehicularRestrictionResponse(OK, "Successful", request, now,
-                isTodayEven == isPlateEven);
     }
 
     private boolean isEven(final int digit) {
