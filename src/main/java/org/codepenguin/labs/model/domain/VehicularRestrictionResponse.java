@@ -15,19 +15,12 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.codepenguin.labs;
+package org.codepenguin.labs.model.domain;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import org.codepenguin.labs.model.enums.ResponseStatus;
 
-@Path("/hello")
-public class ExampleResource {
+import java.time.LocalDateTime;
 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String hello() {
-        return "Hello from RESTEasy Reactive";
-    }
+public record VehicularRestrictionResponse(ResponseStatus status, String message, VehicularRestrictionRequest request,
+                                           LocalDateTime dateTime, Boolean canDrive) {
 }
